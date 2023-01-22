@@ -1,22 +1,23 @@
  
  /// ## Read file content as byte arrays via stream
- public void ProcessCfgFile(string cfgFilename)
+ public List<string> ReadFileContentToList(string filename)
     {
       List<string> fileList = new List<string>();
       try
       {
          ///Auto Proccess BOM(Byte Order mark)
-      	using (Stream ms = new MemoryStream(resourceManagerProxy.ReadFile(cfgFilename)))
+      	 using (Stream ms = new MemoryStream(resourceManagerProxy.ReadFile(filename)))
         using (StreamReader stream = new StreamReader(ms, Encoding.UTF8))
         {
            while (stream.Peek() >= 0)
            {
-           string fileName = stream.ReadLine();
-           if (string.IsNullOrWhiteSpace(fileName))
-              continue;
-           fileList.Add(fileName);
+           string line = stream.ReadLine();
+           //if (string.IsNullOrWhiteSpace(line))
+           //   continue;
+           fileList.Add(line);
            }                        
          }
+       return fileList;
      }
      catch (Exception e)
      {
